@@ -64,7 +64,7 @@ pub enum Expr {
 pub fn eval(env: &Rc<Env>, expr: &Rc<Expr>) -> Rc<Expr> {
     match **expr {
         Expr::Var(Var::Free(ref name)) => lookup(env, name).unwrap_or(expr).clone(),
-        Expr::Var(Var::Bound(ref name)) => panic!("encountered a bound variable: {:?}", name),
+        Expr::Var(Var::Bound(ref name, _)) => panic!("encountered a bound variable: {:?}", name),
         Expr::Lam(_) => expr.clone(),
         Expr::App(ref fun, ref arg) => match *eval(env, fun) {
             Expr::Lam(ref scope) => {
